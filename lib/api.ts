@@ -4,7 +4,7 @@ import Constants from "expo-constants";
 const BASE_URL =
   Constants.expoConfig?.extra?.BASE_URL ||
   Constants.manifest2?.extra?.BASE_URL ||
-  "http://192.168.1.3:8000/api";
+  "http://192.168.1.8:8000/api";
 
 const api = axios.create({
   baseURL: BASE_URL,

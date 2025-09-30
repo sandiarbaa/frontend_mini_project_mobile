@@ -1,5 +1,5 @@
-import api from "@/lib/api";
 import { Picker } from "@react-native-picker/picker";
+import axios from "axios";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -21,7 +21,9 @@ export default function UbahBarang() {
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const res = await api.get(`/barangs/${id}`);
+        const res = await axios.get(
+          `http://192.168.1.8:8000/api/barangs/${id}`
+        );
         const data = res.data.data;
         if (data) {
           setNama(data.nama);
@@ -43,7 +45,7 @@ export default function UbahBarang() {
     }
     try {
       setLoading(true);
-      await api.put(`/barangs/${id}`, {
+      await axios.put(`http://192.168.1.8:8000/api/barangs/${id}`, {
         nama,
         kategori,
         harga: parseInt(harga, 10),

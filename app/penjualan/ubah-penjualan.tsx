@@ -1,6 +1,6 @@
-import api from "@/lib/api";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
+import axios from "axios";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -38,16 +38,15 @@ export default function UbahPenjualan() {
     const fetchData = async () => {
       try {
         const [resPelanggan, resBarang, resPenjualan] = await Promise.all([
-          api.get("/pelanggans"),
-          api.get("/barangs"),
-          api.get(`/penjualans/${id}`),
+          axios.get("http://192.168.1.8:8000/api/pelanggans"),
+          axios.get("http://192.168.1.8:8000/api/barangs"),
+          axios.get(`http://192.168.1.8:8000/api/penjualans/${id}`),
         ]);
 
         setPelanggans(resPelanggan.data.data || []);
         setBarangs(resBarang.data.data || []);
 
         const p = resPenjualan.data.data;
-        console.log(JSON.stringify(p, null, 2));
         setTgl(new Date(p.tgl));
         setPelangganId(p.pelanggan_id);
 
@@ -109,7 +108,7 @@ export default function UbahPenjualan() {
 
     try {
       setLoading(true);
-      await api.put(`/penjualans/${id}`, {
+      await axios.put(`http://192.168.1.8:8000/api/penjualans/${id}`, {
         tgl: tgl.toISOString().split("T")[0],
         pelanggan_id: Number(pelangganId),
         items: items.map((i) => ({
@@ -209,7 +208,6 @@ export default function UbahPenjualan() {
                   <Picker.Item key={b.id} label={b.nama} value={String(b.id)} />
                 ))}
               </Picker>
-
             </View>
             <TextInput
               style={[

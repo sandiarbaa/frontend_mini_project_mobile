@@ -1,5 +1,6 @@
 import api from "@/lib/api";
 import { Picker } from "@react-native-picker/picker";
+import axios from "axios";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -21,8 +22,7 @@ export default function UbahPelanggan() {
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const res = await api.get(`/pelanggans/${id}`);
-        console.log(res.data, "ooo");
+        const res = await axios.get(`http://192.168.1.8:8000/api/pelanggans/${id}`);
         const data = res.data.data;
         if (data) {
           setNama(data.nama);
@@ -37,23 +37,6 @@ export default function UbahPelanggan() {
     if (id) fetchDetail();
   }, [id]);
 
-  //   useEffect(() => {
-  //     const fetchDetail = async () => {
-  //       try {
-  //         const res = await api.get(`/pelanggans/${id}`);
-  //         console.log(res.data, "ooo");
-  //         const data = res.data;
-  //         setNama(data.nama);
-  //         setDomisili(data.domisili);
-  //         setJenisKelamin(data.jenis_kelamin);
-  //       } catch (error) {
-  //         console.error("Gagal ambil detail:", error);
-  //         Alert.alert("Error", "Gagal mengambil detail pelanggan");
-  //       }
-  //     };
-  //     if (id) fetchDetail();
-  //   }, [id]);
-
   const handleUpdate = async () => {
     if (!nama.trim()) {
       Alert.alert("Validasi", "Nama wajib diisi");
@@ -61,7 +44,7 @@ export default function UbahPelanggan() {
     }
     try {
       setLoading(true);
-      await api.put(`/pelanggans/${id}`, {
+      await axios.put(`http://192.168.1.8:8000/api/pelanggans/${id}`, {
         nama,
         domisili,
         jenis_kelamin: jenisKelamin,

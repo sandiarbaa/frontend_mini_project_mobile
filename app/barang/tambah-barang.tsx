@@ -1,5 +1,5 @@
-import api from "@/lib/api";
 import { Picker } from "@react-native-picker/picker";
+import axios from "axios";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -24,7 +24,7 @@ export default function TambahBarang() {
     }
     try {
       setLoading(true);
-      await api.post("/barangs", {
+      await axios.post("http://192.168.1.8:8000/api/barangs", {
         nama,
         kategori,
         harga: parseInt(harga, 10),

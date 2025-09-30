@@ -1,15 +1,15 @@
+import { Picker } from "@react-native-picker/picker";
+import axios from "axios";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import {
-  View,
+  Alert,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
-  Alert,
+  View,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import { router } from "expo-router";
-import api from "@/lib/api";
 
 export default function TambahPelanggan() {
   const [nama, setNama] = useState("");
@@ -24,7 +24,7 @@ export default function TambahPelanggan() {
     }
     try {
       setLoading(true);
-      await api.post("/pelanggans", {
+      await axios.post("http://192.168.1.8:8000/api/pelanggans", {
         nama,
         domisili,
         jenis_kelamin: jenisKelamin,

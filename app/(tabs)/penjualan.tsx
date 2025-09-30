@@ -1,4 +1,4 @@
-import api from "@/lib/api";
+import axios from "axios";
 import { router, useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
 import {
@@ -48,8 +48,7 @@ export default function TampilPenjualan() {
 
   const fetchPenjualans = async () => {
     try {
-      const res = await api.get("/penjualans");
-      // console.log(JSON.stringify(res.data.data, null, 2));
+      const res = await axios.get("http://192.168.1.8:8000/api/penjualans");
       setPenjualans(res.data.data || []);
     } catch (err) {
       console.error("Gagal ambil penjualan:", err);
@@ -67,7 +66,7 @@ export default function TampilPenjualan() {
         style: "destructive",
         onPress: async () => {
           try {
-            await api.delete(`/penjualans/${id}`);
+            await axios.delete(`http://192.168.1.8:8000/api/penjualans/${id}`);
             fetchPenjualans();
           } catch (error) {
             console.error("Gagal hapus penjualan:", error);

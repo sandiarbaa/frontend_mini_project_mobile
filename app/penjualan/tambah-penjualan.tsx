@@ -1,6 +1,6 @@
-import api from "@/lib/api";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
+import axios from "axios";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -38,8 +38,8 @@ export default function TambahPenjualan() {
     const fetchData = async () => {
       try {
         const [resPelanggan, resBarang] = await Promise.all([
-          api.get("/pelanggans"),
-          api.get("/barangs"),
+          axios.get("http://192.168.1.8:8000/api/pelanggans"),
+          axios.get("http://192.168.1.8:8000/api/barangs"),
         ]);
         setPelanggans(resPelanggan.data.data || []);
         setBarangs(resBarang.data.data || []);
@@ -103,8 +103,8 @@ export default function TambahPenjualan() {
 
     try {
       setLoading(true);
-      await api.post("/penjualans", {
-        tgl: tgl.toISOString().split("T")[0], // format YYYY-MM-DD
+      await axios.post("http://192.168.1.8:8000/api/penjualans", {
+        tgl: tgl.toISOString().split("T")[0],
         pelanggan_id: pelangganId,
         items: items.map((i) => ({
           barang_id: Number(i.barang_id),

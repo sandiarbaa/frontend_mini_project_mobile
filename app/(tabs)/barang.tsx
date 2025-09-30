@@ -1,4 +1,4 @@
-import api from "@/lib/api";
+import axios from "axios";
 import { router, useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
 import {
@@ -33,7 +33,7 @@ export default function BarangScreen() {
 
   const fetchBarangs = async () => {
     try {
-      const res = await api.get("/barangs");
+      const res = await axios.get("http://192.168.1.8:8000/api/barangs");
       setBarangs(res.data.data || []);
     } catch (error) {
       console.error("Gagal fetch barang:", error);
@@ -51,7 +51,7 @@ export default function BarangScreen() {
         style: "destructive",
         onPress: async () => {
           try {
-            await api.delete(`/barangs/${id}`);
+            await axios.delete(`http://192.168.1.8:8000/api/barangs/${id}`);
             fetchBarangs();
           } catch (error) {
             console.error("Gagal hapus barang:", error);

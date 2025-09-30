@@ -1,4 +1,4 @@
-import api from "@/lib/api";
+import axios from "axios";
 import { router, useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
 import {
@@ -25,7 +25,7 @@ export default function PelangganScreen() {
 
   const fetchPelanggans = async () => {
     try {
-      const res = await api.get("/pelanggans");
+      const res = await axios.get("http://192.168.1.8:8000/api/pelanggans");
       setPelanggans(res.data.data || []);
     } catch (error) {
       console.error("Gagal fetch pelanggan:", error);
@@ -43,7 +43,7 @@ export default function PelangganScreen() {
         style: "destructive",
         onPress: async () => {
           try {
-            await api.delete(`/pelanggans/${id}`);
+            await axios.delete(`http://192.168.1.8:8000/api/pelanggans/${id}`);
             fetchPelanggans(); // refresh data setelah delete
           } catch (error) {
             console.error("Gagal hapus pelanggan:", error);
